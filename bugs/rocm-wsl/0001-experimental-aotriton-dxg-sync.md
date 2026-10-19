@@ -1,0 +1,50 @@
+# 0001 — Experimental AOTriton attention triggers dxg synchronization failures
+
+**Status:** Candidate external bug
+**Affected layer:** Experimental ROCm attention path interacting with WSL GPU virtualization
+**Potential audience:** AMD ROCm and Microsoft WSL graphics teams
+**First observed:** 2026-10-12
+
+## Environment
+
+| Field | Value |
+| --- | --- |
+| GPU | AMD Radeon RX 7800 XT, 16 GB |
+| Windows | 10.0.26200.9711 |
+| WSL / kernel | 2.7.11.0 / 6.18.33.2-microsoft-standard-WSL2 |
+| PyTorch / ROCm | 2.13.0+rocm10.0.0 |
+| HIP runtime | 7.15.26333 |
+| Workload geometry | Qwen3-4B LoRA CPT, BF16, context 512, microbatch 1, accumulation 16, activation checkpointing |
+
+## Minimal reproduction
+
+Run the otherwise stable workload with only `TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1` added.
+
+## Observed behavior
+
+Steps 1 and 2 completed at roughly 508 and 716 tokens/second. WSL then emitted:
+
+```text
+memcpy: detected field-spanning write ... dxgvmbus.c:3095
+WARNING: ... dxgvmb_send_wait_sync_object_gpu
+dxgk: dxgkio_wait_sync_object_cpu: wait_completion_interruptible: -512
+dxgk: dxgkio_wait_sync_object_cpu: Ioctl failed: -512
+```
+
+The benchmark was stopped rather than allowed to continue after the bridge warnings.
+
+## Control result
+
+Default SDPA with identical geometry completed 250 steps at a 14.367 second median step time and 570.20 tokens/second without a new dxgkrnl warning.
+
+## Impact
+
+The experimental path is not suitable for unattended CPT on this WSL/RDNA3 setup. The two successful steps are not a performance result.
+
+## Mitigation
+
+Use default SDPA. Do not enable the experimental AOTriton variable for the production run.
+
+## Assessment
+
+Observed: the experimental toggle and dxg synchronization warnings coincide; the default control completes normally. Inference: this may be a WSL bridge bug, ROCm interaction, or unsupported experimental path. Vendor ownership is not confirmed.
