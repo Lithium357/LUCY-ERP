@@ -1,0 +1,13 @@
+stage: cpt-smoke
+runtime: WSL2 + ROCm
+model: /mnt/d/ERP-LLM/models/Qwen3-4B-Base
+archive: /mnt/d/ERP-LLM/data/raw/sdsr--erp-and-erotica
+adapter: LoRA
+precision: bf16
+sequence_length: 512
+micro_batch_size: 1
+gradient_accumulation_steps: 16
+max_steps: 25
+save_steps: 500
+learning_rate: 1.0e-4
+notes: "Smoke run only. Raw archive is parsed/HTML-normalized, not content-filtered."

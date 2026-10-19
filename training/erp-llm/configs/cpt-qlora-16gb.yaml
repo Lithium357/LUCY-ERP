@@ -1,0 +1,28 @@
+# Initial conservative configuration; tune only after a small data smoke test.
+stage: cpt
+model:
+  # Pretrained/base checkpoint; do not substitute the instruction checkpoint here.
+  name_or_path: Qwen/Qwen3-4B-Base
+  load_in_4bit: true
+  quant_type: nf4
+  compute_dtype: bf16
+adapter:
+  type: lora
+  rank: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: all-linear
+training:
+  max_sequence_length: 1024
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 32
+  gradient_checkpointing: true
+  learning_rate: 0.0001
+  warmup_ratio: 0.03
+  scheduler: cosine
+  optimizer: paged_adamw_8bit
+  epochs: 1
+  save_steps: 250
+data:
+  raw_source: D:\ERP-LLM\data\raw\sdsr--erp-and-erotica
+  prepared_manifest: null

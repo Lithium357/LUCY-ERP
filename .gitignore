@@ -1,0 +1,24 @@
+# Large or private local artifacts
+/data/raw/
+/data/prepared/
+/data/cache/
+/outputs/
+/runs/
+/checkpoints/
+/logs/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Local environments and caches
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Secrets and local settings
+.env
+.env.*
+*.key
+*.pem
