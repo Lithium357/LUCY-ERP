@@ -6,6 +6,8 @@ It is deliberately evidence-first. A note is an observation, not a claim that a 
 
 Start with the privacy-scrubbed [reproduction environment](ENVIRONMENT.md) and
 the [controlled test matrix](TEST_MATRIX.md) before comparing a new result.
+For the evidence needed before community or vendor outreach, use the
+[reporting and outreach checklist](OUTREACH.md).
 
 ## Scope
 
