@@ -48,11 +48,27 @@ observed. The warnings taint the WSL kernel and may affect creation of VMBus
 channels (for example, host-service or vsock activity), so they merit capture
 before a user-visible failure occurs.
 
+## Related upstream issue
+
+[microsoft/WSL#40795](https://github.com/microsoft/WSL/issues/40795) is an
+open June 2026 report on the same WSL kernel family (`6.18.33.1`) with the
+same `order:7` allocation, `vmbus_add_channel_work`, `vmbus_alloc_ring`, and
+`hvs_probe` stack. Its reported impact is that *new* WSL sessions and Windows
+interop can time out after the allocation failures.
+
+That is a useful correlation, not a completed reproduction. This machine has
+not shown its session/interop failure: an ordinary `wsl.exe` invocation still
+worked after this observation. Do not open a duplicate or claim the upstream
+failure until a controlled run records both the matching kernel delta and a
+user-visible service/session impact.
+
 ## Mitigation
 
 No active mitigation was applied to avoid perturbing the production run. Future
 experiments should leave headroom in the WSL memory cap and characterize cache
-reclaim behavior after the training window.
+reclaim behavior after the training window. Do not apply kernel/sysctl
+workarounds from an upstream issue to the production environment until this
+specific failure is reproduced and a before/after control is collected.
 
 ## Assessment
 

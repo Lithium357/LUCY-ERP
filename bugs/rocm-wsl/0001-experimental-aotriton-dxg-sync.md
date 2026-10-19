@@ -45,6 +45,17 @@ The experimental path is not suitable for unattended CPT on this WSL/RDNA3 setup
 
 Use default SDPA. Do not enable the experimental AOTriton variable for the production run.
 
+## Supportedness context
+
+AMD's current [Radeon limitations and recommended
+settings](https://rocm.docs.amd.com/projects/radeon-ryzen/en/docs-7.2/docs/limitations/limitationsrad.html)
+state that AO Triton is disabled by default on RX 7000-series Radeon products
+for the documented PyTorch 2.9 configuration and must be manually enabled.
+That documentation does not cover this exact PyTorch/ROCm version or the dxg
+failure above, but it confirms that this is an explicitly experimental path on
+the affected GPU family. Reproduce on a current supported software set before
+presenting it as a new AMD issue.
+
 ## Assessment
 
 Observed: the experimental toggle and dxg synchronization warnings coincide; the default control completes normally. Inference: this may be a WSL bridge bug, ROCm interaction, or unsupported experimental path. Vendor ownership is not confirmed.

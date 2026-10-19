@@ -6,11 +6,11 @@ trainer stopped. Never run a stress probe beside the active CPT job.
 | Probe | One changed variable | Control | Evidence to retain | Risk |
 | --- | --- | --- | --- | --- |
 | Default attention baseline | None | Same short run repeated | step time, token rate, `dmesg` delta | Low |
-| AOTriton experimental attention | `TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1` | Default SDPA | full stderr, `dmesg` dxg delta | Medium: stop on first bridge warning |
+| AOTriton experimental attention | `TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1` | Default SDPA | full stderr, `dmesg` dxg delta, supported-version check | Medium: stop on first bridge warning; currently an unsupported-path investigation |
 | Activation-memory boundary | Disable activation checkpointing | Enabled checkpointing | PyTorch error plus dxg lines | Medium: expected allocation failure |
 | dxg capability-query noise | One minimal ROCm/PyTorch device query | Fresh WSL session without query | timestamped `dmesg` delta | Low |
 | Windows-mounted cache reliability | Read-only sequential scan from `/mnt/d` | Same cache on WSL ext4 | checksums, I/O error, `dmesg` | Low |
-| WSL VMBus allocation pressure | Controlled WSL memory cap/cache pressure | Default cap with no pressure | `free -h`, `dmesg`, service state | Medium: no production workload |
+| WSL VMBus allocation pressure | Controlled WSL memory cap/cache pressure | Default cap with no pressure | `free -h`, `/proc/buddyinfo`, `dmesg`, new-session/interop result | Medium: no production workload; correlate with [WSL#40795](https://github.com/microsoft/WSL/issues/40795), do not duplicate it without impact |
 
 ## Stop conditions
 
