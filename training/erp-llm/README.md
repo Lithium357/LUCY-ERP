@@ -1,14 +1,12 @@
-# Lucy ERP LLM project
+# ERP LLM project
 
-This directory is Lucy's private ERP language-model training material. It is not a generic ERP dataset collection and it does not provide selectable characters or a distributed model.
-
-It uses a two-stage adapter workflow intended for a single 16 GB GPU:
+This project uses a two-stage adapter workflow intended for a single 16 GB GPU:
 
 1. Continued pretraining (CPT) on raw, long-form roleplay prose.
 2. Supervised fine-tuning (SFT) on curated multi-turn roleplay conversations.
 
-Raw source files are deliberately preserved without transformation under
-`D:\ERP-LLM\data\raw`.  Collection is capped at 512 GiB by the collector.
+Raw source files are deliberately preserved without transformation in a local
+data root chosen at collection time. Collection defaults to a 512 GiB cap.
 No training job should read raw data directly; a later preparation step will
 create versioned, auditable CPT and SFT manifests.
 
@@ -33,9 +31,8 @@ create versioned, auditable CPT and SFT manifests.
 Install the lightweight collector dependency and run it:
 
 ```powershell
-& $python -m pip install --target D:\ERP-LLM\tools\python huggingface_hub
-$env:PYTHONPATH = 'D:\ERP-LLM\tools\python'
-& $python .\scripts\collect_datasets.py
+& $python -m pip install huggingface_hub
+& $python .\scripts\collect_datasets.py --root D:\LucyData
 ```
 
 The script resumes interrupted Hugging Face transfers and writes a JSON

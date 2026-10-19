@@ -78,7 +78,7 @@ WSL restart and record host-side VRAM metrics.
 GPU defect.
 
 **Configuration:** stable control geometry; 29 GB packed `uint32` cache read
-from `/mnt/d/HENTAI-Data/caches/erp-qwen3-4b-512-v1` during long training.
+from a Windows-mounted `/mnt/d` packed-cache path during long training.
 
 **Observed result:** after a complete step-2000 checkpoint, the trainer raised:
 

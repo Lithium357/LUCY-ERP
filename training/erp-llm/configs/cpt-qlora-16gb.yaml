@@ -24,5 +24,6 @@ training:
   epochs: 1
   save_steps: 250
 data:
-  raw_source: D:\ERP-LLM\data\raw\sdsr--erp-and-erotica
+  # Supply an absolute local path at launch time; never commit raw source data.
+  raw_source: null
   prepared_manifest: null

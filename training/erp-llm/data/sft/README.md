@@ -19,7 +19,7 @@ making it the automatic answer to ordinary conversation.
 ## Regenerate
 
 ```powershell
-wsl.exe -d Ubuntu -- /home/masonturlington/HENTAI/.venv/bin/python \
+wsl.exe -d Ubuntu -- python \
   /mnt/c/Users/turli/Documents/Codex/2026-10-09/i-w/work/erp-llm/scripts/build_astra6_sft.py
 ```
 
