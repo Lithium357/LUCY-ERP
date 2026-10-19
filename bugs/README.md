@@ -4,6 +4,9 @@ This directory records failures encountered while developing or operating Lucy t
 
 It is deliberately evidence-first. A note is an observation, not a claim that a vendor caused it. Every entry identifies the affected layer, an exact environment, the smallest known reproduction, raw evidence, a control case, mitigation, and confidence.
 
+Start with the privacy-scrubbed [reproduction environment](ENVIRONMENT.md) and
+the [controlled test matrix](TEST_MATRIX.md) before comparing a new result.
+
 ## Scope
 
 - Include platform/runtime failures and regressions with enough information for an external maintainer to investigate.
