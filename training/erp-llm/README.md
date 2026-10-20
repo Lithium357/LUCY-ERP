@@ -20,6 +20,8 @@ The committed helpers are intentionally data-free:
   inference checkpoint and an exact resume checkpoint.
 - `scripts/generation_probe.py` is a CPU-only decoder probe that accepts one
   local prompt at execution time and flags token/character repetition loops.
+- `scripts/audit_sft_dataset.py` checks a private SFT JSONL for schema errors
+  and shallow duplicate replies while reporting no training text.
 - `evaluation/scorecard.md` defines the human review axes for checkpoint
   selection. Prompts, generations, and reviewer results stay outside Git.
 
