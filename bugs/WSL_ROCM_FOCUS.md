@@ -50,6 +50,23 @@ The individual evidence records are [0001](rocm-wsl/0001-experimental-aotriton-d
 [0005](wsl/0005-dxg-adapter-query-ioctl-noise.md), and
 [0006](wsl/0006-hyperv-vmswitch-event-285-telemetry.md).
 
+## Cross-vendor upstream correlation
+
+The field-spanning-write portion of the AOTriton observation has an exact
+function-and-line match with [Microsoft WSL issue 41017](https://github.com/microsoft/WSL/issues/41017):
+`dxgvmb_send_wait_sync_object_gpu` at `dxgvmbus.c:3095`. That report involved
+an NVIDIA-backed PyTorch training workload, and Microsoft pointed a duplicate
+report to it. This supports a *possible* shared GPU-PV/WSL synchronization
+surface; it does not demonstrate that AMD hardware, ROCm, or this training run
+shares the same root cause.
+
+Another user report, [WSL issue 41701](https://github.com/microsoft/WSL/issues/41701),
+describes throughput degradation with accumulating dxg synchronization errors
+after multi-day uptime on the same WSL release family. It is not maintainer
+confirmation and uses different hardware. The right response here is the
+documented fresh-versus-aged uptime control, not a GPU reset or a claim of a
+match.
+
 ## Non-matches worth avoiding
 
 - The public RX 7800 XT detection report in ROCDXG issue 34 is not a match:

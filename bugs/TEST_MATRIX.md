@@ -14,6 +14,7 @@ trainer stopped. Never run a stress probe beside the active CPT job.
 | Windows-mounted cache reliability | Read-only sequential scan from `/mnt/d` | Same cache on WSL ext4 | checksums, I/O error, `dmesg` | Low |
 | WSL VMBus allocation pressure | Controlled WSL memory cap/cache pressure | Default cap with no pressure | `free -h`, `/proc/buddyinfo`, `dmesg`, new-session/interop result | Medium: no production workload; correlate with [WSL#40795](https://github.com/microsoft/WSL/issues/40795), do not duplicate it without impact |
 | WSL Hyper-V firewall Event 285 | Observe warning time window with one normal WSL-to-Windows interop request | Stable WSL uptime and active service | Event 285 count/time range, WSL uptime, service restarts, interop result | Low: telemetry correlation only; do not change firewall settings or report without a user-visible network/VM failure |
+| GPU-PV uptime soak | Fixed short SDPA control at fresh WSL start, then after 24 and 72 hours of normal host uptime | Fresh-session control, same environment and geometry | step-time distribution, error count since session start, GPU clocks/thermals, WSL uptime | Medium: investigate only after production CPT stops; no GPU resets, no concurrent workload, and do not infer a regression from timing alone |
 
 ## Stop conditions
 

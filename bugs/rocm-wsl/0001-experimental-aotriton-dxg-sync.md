@@ -61,6 +61,20 @@ pair is PyTorch 2.9.1 / ROCm 7.2.1. The observed PyTorch 2.13 / ROCm 10 build
 is not a listed production combination, which further makes a reference-stack
 reproduction mandatory before escalation.
 
+## Upstream WSL correlation
+
+Microsoft's WSL tracker has a report for the exact field-spanning-write warning
+at `dxgvmbus.c:3095` in `dxgvmb_send_wait_sync_object_gpu`, under a sustained
+PyTorch training workload with many GPU synchronization operations. Microsoft
+directed a duplicate report for the same signature to that issue. Those
+reports use NVIDIA hardware and different framework builds, so they do **not**
+establish an AMD-specific failure or prove the same root cause here. They do,
+however, make the WSL GPU-PV synchronization layer a concrete comparison point
+for a future AMD reference-stack reproduction.
+
+Source: [Microsoft WSL issue 41017](https://github.com/microsoft/WSL/issues/41017)
+and its [duplicate-linking discussion](https://github.com/microsoft/WSL/issues/41060).
+
 ## Assessment
 
 Observed: the experimental toggle and dxg synchronization warnings coincide; the default control completes normally. Inference: this may be a WSL bridge bug, ROCm interaction, or unsupported experimental path. Vendor ownership is not confirmed.
