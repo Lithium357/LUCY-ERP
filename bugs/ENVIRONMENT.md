@@ -32,6 +32,18 @@ The effective guest-memory limit matters: the VMBus allocation warnings in
 [0004](wsl/0004-hv-vmbus-channel-allocation.md) occurred with low free guest
 memory and a large page cache.
 
+### Version-update baseline candidate
+
+At the time of review, this host is on WSL 2.7.11 with kernel 6.18.33.2.
+Microsoft has released the newer stable WSL 2.7.14 line and the newer
+`linux-msft-wsl-6.18.54.1` kernel. A WSL update will terminate the guest and
+therefore the production trainer, so it is deferred until after a durable
+checkpoint and an intentional training stop. It is a comparison variable, not
+a claimed fix for any dxg warning.
+
+Sources: [WSL 2.7.14 release](https://github.com/microsoft/WSL/releases/tag/2.7.14),
+[WSL kernel releases](https://github.com/microsoft/WSL2-Linux-Kernel/releases).
+
 ## ML runtime
 
 | Component | Configuration |

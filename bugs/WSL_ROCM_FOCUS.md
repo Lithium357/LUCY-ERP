@@ -84,13 +84,16 @@ Sources: [ROCDXG issue 34](https://github.com/ROCm/librocdxg/issues/34),
 
 1. Wait for a durable production checkpoint and intentionally stop CPT before
    any GPU probe or runtime installation.
-2. Capture a post-stop bridge wiring audit: WSL version, Windows driver,
+2. Capture a pre-change bridge wiring audit: WSL version, Windows driver,
    ROCDXG package version, `/dev/dxg`, DXCore, and a sanitized library map.
-3. Create a separate, disposable AMD-published reference environment. Do not
+3. Update WSL from the recorded 2.7.11 / 6.18.33.2 baseline to a current stable
+   release only after that stop, then repeat the wiring audit and a fixed SDPA
+   control. This is a test variable: do not call it a fix without evidence.
+4. Create a separate, disposable AMD-published reference environment. Do not
    modify the existing training environment or model/data directories.
-4. Run the SDPA control first, then one changed variable per test. Stop at the
+5. Run the SDPA control first, then one changed variable per test. Stop at the
    first dxg synchronization, host, thermal, or filesystem error.
-5. Publish only a privacy-scrubbed minimal reproducer if a result survives the
+6. Publish only a privacy-scrubbed minimal reproducer if a result survives the
    reference-stack comparison. Never include Lucy data, weights, checkpoints,
    personal paths, or the private monitoring dashboard.
 
