@@ -24,6 +24,8 @@ The committed helpers are intentionally data-free:
   and shallow duplicate replies while reporting no training text.
 - `evaluation/scorecard.md` defines the human review axes for checkpoint
   selection. Prompts, generations, and reviewer results stay outside Git.
+- `evaluation/sft_readiness.md` is the gate for moving from a character seed
+  into a real, separate SFT stage.
 
 The local systemd recovery unit is not committed: it contains machine-specific
 paths and is maintained beside the private training installation. It should

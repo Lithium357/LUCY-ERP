@@ -22,6 +22,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", required=True, type=Path)
     parser.add_argument("--out", type=Path, help="Optional local JSON report")
+    parser.add_argument("--minimum-unique", type=int, default=250, help="Target number of unique final replies")
     args = parser.parse_args()
     rows = []
     malformed = 0
@@ -60,19 +61,30 @@ def main() -> None:
         pairs.append(fingerprint({"user": user, "assistant": messages[-1]["content"]}))
         replies.append(fingerprint(messages[-1]["content"]))
 
+    unique_pairs = len(set(pairs))
+    unique_replies = len(set(replies))
+    recommendations = []
+    if len(replies) != unique_replies:
+        recommendations.append("Replace duplicate replies with genuinely new scene-level examples; changing only a wrapper around the same answer is not useful diversity.")
+    if unique_replies < args.minimum_unique:
+        recommendations.append(f"This is a seed set ({unique_replies} unique replies); expand it toward at least {args.minimum_unique} reviewed replies before character-only SFT.")
+    if max(turn_counts, default=0) < 5:
+        recommendations.append("Add multi-turn records before SFT so continuity is trained as well as first replies.")
+    if not recommendations:
+        recommendations.append("Structural checks passed; proceed to private content review and held-out evaluation design.")
     report = {
         "schema_version": 1,
         "records": len(rows),
         "malformed_records": malformed,
         "role_or_shape_errors": role_errors,
         "buckets": dict(sorted(bucket_counts.items())),
-        "unique_final_user_assistant_pairs": len(set(pairs)),
-        "unique_final_assistant_replies": len(set(replies)),
-        "duplicate_final_pairs": len(pairs) - len(set(pairs)),
-        "duplicate_final_assistant_replies": len(replies) - len(set(replies)),
+        "unique_final_user_assistant_pairs": unique_pairs,
+        "unique_final_assistant_replies": unique_replies,
+        "duplicate_final_pairs": len(pairs) - unique_pairs,
+        "duplicate_final_assistant_replies": len(replies) - unique_replies,
         "min_message_count": min(turn_counts, default=0),
         "max_message_count": max(turn_counts, default=0),
-        "recommendation": "Expand with genuinely new multi-turn records before SFT when duplicate final replies are common; changing only a wrapper around the same answer is not useful diversity.",
+        "recommendations": recommendations,
     }
     rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.out:
