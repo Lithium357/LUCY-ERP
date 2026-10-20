@@ -6,6 +6,7 @@ trainer stopped. Never run a stress probe beside the active CPT job.
 | Probe | One changed variable | Control | Evidence to retain | Risk |
 | --- | --- | --- | --- | --- |
 | Default attention baseline | None | Same short run repeated | step time, token rate, `dmesg` delta | Low |
+| WSL bridge wiring audit | No GPU workload; verify `/dev/dxg`, DXCore, ROCDXG package/version, and process library mappings | Same checks after a fresh WSL restart | version table and sanitized mapping summary | Low: read-only inspection only |
 | AMD-published reference runtime | Clean isolated environment with the current WSL matrix's production PyTorch/ROCm pair | Current PyTorch 2.13 / ROCm 10 environment | package versions, short baseline, `dmesg` delta | Medium: create only after the production trainer is stopped; do not modify its environment |
 | AOTriton experimental attention | `TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1` | Default SDPA | full stderr, `dmesg` dxg delta, supported-version check | Medium: stop on first bridge warning; currently an unsupported-path investigation |
 | Activation-memory boundary | Disable activation checkpointing | Enabled checkpointing | PyTorch error plus dxg lines | Medium: expected allocation failure |

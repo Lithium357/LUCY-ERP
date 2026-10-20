@@ -9,6 +9,10 @@ the [controlled test matrix](TEST_MATRIX.md) before comparing a new result.
 For the evidence needed before community or vendor outreach, use the
 [reporting and outreach checklist](OUTREACH.md).
 
+The current investigation order for the Windows–WSL–ROCm boundary is captured
+in [WSL_ROCM_FOCUS.md](WSL_ROCM_FOCUS.md). It is intentionally a triage plan,
+not a list of confirmed defects.
+
 ## Scope
 
 - Include platform/runtime failures and regressions with enough information for an external maintainer to investigate.

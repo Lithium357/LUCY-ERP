@@ -68,6 +68,25 @@ That is a tooling limitation for later investigation, not by itself evidence
 of a ROCm defect. Device health for the active run is therefore captured from
 PyTorch/trainer telemetry, WSL kernel logs, and Windows host event logs.
 
+## WSL ROCm bridge composition
+
+| Component | Observation |
+| --- | --- |
+| GPU device node | `/dev/dxg` is present in the WSL guest |
+| Microsoft userspace bridge | `/usr/lib/wsl/lib/libdxcore.so` is present |
+| AMD WSL bridge | `rocdxg-roct` 1.2.2 supplies `/opt/rocm/lib/librocdxg.so.1.2.2` |
+| Active trainer mappings | System `librocdxg` plus HIP/HSA libraries bundled with the PyTorch ROCm wheel |
+
+This split is expected by the ROCDXG design: AMD describes ROCDXG as the
+WSL-specific userspace bridge and states that the ROCm runtime loads it to
+route compute through Microsoft DXCore. It is therefore **not** treated as an
+ABI mismatch or defect merely because the framework wheel provides HIP/HSA
+while the system package provides ROCDXG. The runtime is still outside the
+current published production PyTorch/ROCm pairing, so a clean reference-stack
+comparison remains required before filing a vendor report.
+
+Source: [AMD ROCDXG project](https://github.com/ROCm/librocdxg/).
+
 ## Published support comparison
 
 AMD's WSL compatibility matrix checked on 2026-10-19 lists the Radeon RX 7800
