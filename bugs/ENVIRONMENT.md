@@ -59,6 +59,27 @@ memory and a large page cache.
 | Adapter and resume checkpoints | Every 500 optimizer steps |
 | Packed-cache location for stable run | WSL ext4; mounted Windows storage produced an `Errno 5` event ([0003](wsl/0003-mnt-d-errno5-packed-cache.md)) |
 
+## Diagnostic-tool availability
+
+This environment was built around the PyTorch ROCm wheel rather than a full
+ROCm system installation. At the time this table was verified, `rocm`,
+`rocminfo`, `amd-smi`, and `rocm-smi` were not present in the Ubuntu PATH.
+That is a tooling limitation for later investigation, not by itself evidence
+of a ROCm defect. Device health for the active run is therefore captured from
+PyTorch/trainer telemetry, WSL kernel logs, and Windows host event logs.
+
+## Published support comparison
+
+AMD's WSL compatibility matrix checked on 2026-10-19 lists the Radeon RX 7800
+XT as supported and names PyTorch 2.9.1 / ROCm 7.2.1 as its production WSL
+pairing. This environment's PyTorch 2.13 / ROCm 10 runtime is not one of the
+matrix's listed production combinations. That does not invalidate an observed
+failure, but it means an external defect report should be reproduced in an
+isolated supported reference environment before it is described as a supported
+configuration regression.
+
+Source: [AMD WSL compatibility matrix](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/compatibility/compatibilityrad/wsl/wsl_compatibility.html).
+
 ## Control baseline
 
 The stable 250-step SDPA control run had a median **14.367 seconds per step**

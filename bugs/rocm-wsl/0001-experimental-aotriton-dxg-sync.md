@@ -56,6 +56,11 @@ failure above, but it confirms that this is an explicitly experimental path on
 the affected GPU family. Reproduce on a current supported software set before
 presenting it as a new AMD issue.
 
+The current WSL matrix lists the RX 7800 XT, but its named production framework
+pair is PyTorch 2.9.1 / ROCm 7.2.1. The observed PyTorch 2.13 / ROCm 10 build
+is not a listed production combination, which further makes a reference-stack
+reproduction mandatory before escalation.
+
 ## Assessment
 
 Observed: the experimental toggle and dxg synchronization warnings coincide; the default control completes normally. Inference: this may be a WSL bridge bug, ROCm interaction, or unsupported experimental path. Vendor ownership is not confirmed.

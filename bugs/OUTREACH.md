@@ -79,6 +79,7 @@ project exists, not as an immediate ask.
 | Packed cache on mounted Windows storage returned `Errno 5` | Mitigated WSL/filesystem issue | Repeat a checksum scan and compare against WSL ext4 before reporting. |
 | Hyper-V VMBus channel allocation warnings | Observed WSL pressure signal | Reproduce under controlled guest-memory/page-cache pressure and prove whether it affects service reliability. |
 | dxg adapter-query ioctl warnings | Observed | Isolate the exact user-space query in a fresh WSL session before assigning impact. |
+| Hyper-V VMSwitch Event 285 warning stream | Observed WSL networking telemetry | Pair the warning with a network, session, or service failure before adding evidence to an existing Microsoft issue. |
 
 The detailed observations and controls live in this directory. Their status is
 deliberately conservative: a warning line is not proof that AMD, Microsoft,
