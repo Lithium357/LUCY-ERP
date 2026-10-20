@@ -10,6 +10,24 @@ data root chosen at collection time. Collection defaults to a 512 GiB cap.
 No training job should read raw data directly; a later preparation step will
 create versioned, auditable CPT and SFT manifests.
 
+## Run diagnostics and evaluation
+
+The committed helpers are intentionally data-free:
+
+- `scripts/analyze_run_progress.py` summarizes train/validation trends from a
+  run-local CSV without reading the corpus or model.
+- `scripts/inspect_lora_checkpoints.py` verifies the required files for an
+  inference checkpoint and an exact resume checkpoint.
+- `scripts/generation_probe.py` is a CPU-only decoder probe that accepts one
+  local prompt at execution time and flags token/character repetition loops.
+- `evaluation/scorecard.md` defines the human review axes for checkpoint
+  selection. Prompts, generations, and reviewer results stay outside Git.
+
+The local systemd recovery unit is not committed: it contains machine-specific
+paths and is maintained beside the private training installation. It should
+record restart events beside the run, use complete resume checkpoints only, and
+apply a cooldown rather than permanently rate-limiting a recoverable failure.
+
 ## Current source assignment
 
 | Source | Planned use |
