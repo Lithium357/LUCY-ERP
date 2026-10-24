@@ -1,3 +1,7 @@
+# Private Lucy content and local artifacts
+/training/erp-llm/data/
+/training/erp-llm/alignment/personal-profile.yaml
+
 # Large or private local artifacts
 /data/raw/
 /data/prepared/
